@@ -4,59 +4,6 @@ import env as e
 import os
 
 
-def get_zillow():
-    # name of cached csv
-    filename = "zillow.csv"
-    # if cached data exist
-    if os.path.isfile(filename):
-        df = pd.read_csv(filename)
-    # wrangle from sql db if not cached
-    else:
-        # read sql query into df
-        # 261 is single family residential id
-        df = pd.read_sql(
-            """SELECT yearbuilt,
-                       bedroomcnt,
-                       bathroomcnt,
-                       calculatedfinishedsquarefeet,
-                       taxvaluedollarcnt,
-                       taxamount,
-                       fips
-                FROM properties_2017
-                WHERE propertylandusetypeid = 261""",
-            f"mysql+pymysql://{e.user}:{e.password}@{e.host}/zillow",
-        )
-        # cache data locally
-        df.to_csv(filename, index=False)
-    return df
-
-
-
-
-
-
-
-
-def split_data(df, target):
-    """
-    This function takes in any DataFrame and a target variable as an argument 
-    and returns train, validate, and test dataframes.
-    It returns three DataFrames with a printout of their proportion to the original DataFrame.
-    """
-    train, validate_test = train_test_split(df, train_size=0.6, random_state=123)
-    validate, test = train_test_split(validate_test, train_size=0.5, random_state=123)
-    print(f"train: {len(train)} ({round(len(train)/len(df), 2)*100}% of {len(df)})")
-    print(
-        f"validate: {len(validate)} ({round(len(validate)/len(df), 2)*100}% of {len(df)})"
-    )
-    print(f"test: {len(test)} ({round(len(test)/len(df), 2)*100}% of {len(df)})")
-
-    return train, validate, test
-
-
-
-
-
 
 
 
@@ -116,6 +63,45 @@ def wrangle_zillow():
     df = df.astype({"year": int, "bedroom": int, "square_feet": int, "property_value": int})
 
     return df
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def split_data(df):
+    """
+    This function takes in any DataFrame and a target variable as an argument 
+    and returns train, validate, and test dataframes.
+    It returns three DataFrames with a printout of their proportion to the original DataFrame.
+    """
+    train, validate_test = train_test_split(df, train_size=0.6, random_state=123)
+    validate, test = train_test_split(validate_test, train_size=0.5, random_state=123)
+    print(f"train: {len(train)} ({round(len(train)/len(df), 2)*100}% of {len(df)})")
+    print(
+        f"validate: {len(validate)} ({round(len(validate)/len(df), 2)*100}% of {len(df)})"
+    )
+    print(f"test: {len(test)} ({round(len(test)/len(df), 2)*100}% of {len(df)})")
+
+    return train, validate, test
+
+
+
+
+
+
+
+
+
 
 
 
