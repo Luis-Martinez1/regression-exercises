@@ -44,8 +44,8 @@ def wrangle_zillow():
     df = df.rename(
         columns={
             "yearbuilt": "year",
-            "bedroomcnt": "bedroom",
-            "bathroomcnt": "bathroom",
+            "bedroomcnt": "bedrooms",
+            "bathroomcnt": "bathrooms",
             "calculatedfinishedsquarefeet": "square_feet",
             "taxvaluedollarcnt": "property_value",
             "taxamount": "property_tax",
@@ -60,7 +60,7 @@ def wrangle_zillow():
     df.county = df.county.map({6037: "LA", 6059: "Orange", 6111: "Ventura"})
 
     # Convert columns to int data type
-    df = df.astype({"year": int, "bedroom": int, "square_feet": int, "property_value": int})
+    df = df.astype({"year": int, "bedrooms": int, "square_feet": int, "property_value": int})
 
     return df
 
