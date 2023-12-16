@@ -6,7 +6,7 @@ import os
 
 
 
-
+# acquire and prep function for zillow dataset
 def wrangle_zillow():
     """
     This function reads the Zillow data from a cached CSV file if it exists,
@@ -71,13 +71,7 @@ def wrangle_zillow():
 
 
 
-
-
-
-
-
-
-
+# Split data function
 def split_data(df):
     """
     This function takes in any DataFrame and a target variable as an argument 
@@ -93,13 +87,6 @@ def split_data(df):
     print(f"test: {len(test)} ({round(len(test)/len(df), 2)*100}% of {len(df)})")
 
     return train, validate, test
-
-
-
-
-
-
-
 
 
 
