@@ -65,7 +65,8 @@ def X_y_split(train, validate, test, target):
     y_test = test[target]
     
     return X_train, y_train, X_validate, y_validate, X_test, y_test
-
+# use the function on zillow for example
+# X_train, y_train, X_validate, y_validate, X_test, y_test = X_y_split(train, validate, test, 'property_value')
 
 
 
