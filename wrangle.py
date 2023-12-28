@@ -5,6 +5,40 @@ import os
 
 
 
+# acquire zillow dataset
+def get_zillow():
+    '''
+    Acquire zillow dataset from codeup database
+    returns zillow data frame with yearbuilt, bedroomcnt, bathroomcnt, 
+    calculatedfinishedsquarefeet, taxvaluedollarcnt, taxamount, fips. 
+    '''
+    # name of cached csv
+    filename = "zillow.csv"
+    # if cached data exist
+    if os.path.isfile(filename):
+        # read the file
+        df = pd.read_csv(filename)
+    # else, pull from sql db if not cached
+    else:
+        df = pd.read_sql(
+            """SELECT yearbuilt,
+                       bedroomcnt,
+                       bathroomcnt,
+                       calculatedfinishedsquarefeet,
+                       taxvaluedollarcnt,
+                       taxamount,
+                       fips
+                FROM properties_2017
+                WHERE propertylandusetypeid = 261""",
+            f"mysql+pymysql://{e.user}:{e.password}@{e.host}/zillow",)
+        # cache the pulled data locally
+        df.to_csv(filename, index=False)
+    return df
+
+
+
+
+
 
 # acquire and prep function for zillow dataset
 def wrangle_zillow():
